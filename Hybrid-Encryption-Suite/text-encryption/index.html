@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main">
+            <div class="header">
+                <h1>Text Encryption</h1>
+                <p>Hybrid AES-256 + RSA-2048</p>
+            </div>
+
+        <main>
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="encrypt">Encrypt</button>
+                <button class="tab-btn" data-tab="decrypt">Decrypt</button>
+                <button class="tab-btn" data-tab="info">Learn</button>
+            </div>
+
+            <!-- ENCRYPT TAB -->
+            <div id="encrypt" class="tab active">
+                <div class="input-group">
+                    <label>Your Text</label>
+                    <textarea id="plaintext" placeholder="Enter text to encrypt..." spellcheck="false"></textarea>
+                    <div class="char-count">
+                        <span id="char-count">0</span> characters
+                    </div>
+                </div>
+
+                <button class="btn-encrypt" onclick="encryptText()">Encrypt</button>
+
+                <div id="encrypt-result" class="result hidden">
+                    <div class="result-section">
+                        <label>Ciphertext</label>
+                        <textarea readonly id="result-ciphertext" spellcheck="false"></textarea>
+                        <button class="btn-copy" onclick="copyToClipboard('result-ciphertext')">Copy</button>
+                    </div>
+
+                    <div class="result-section">
+                        <label>Nonce</label>
+                        <textarea readonly id="result-nonce" spellcheck="false"></textarea>
+                        <button class="btn-copy" onclick="copyToClipboard('result-nonce')">Copy</button>
+                    </div>
+
+                    <div class="result-section">
+                        <label>Encrypted Key</label>
+                        <textarea readonly id="result-encrypted-key" spellcheck="false"></textarea>
+                        <button class="btn-copy" onclick="copyToClipboard('result-encrypted-key')">Copy</button>
+                    </div>
+
+                    <button class="btn-download" onclick="downloadEncrypted()">Download JSON</button>
+                </div>
+            </div>
+
+            <!-- DECRYPT TAB -->
+            <div id="decrypt" class="tab hidden">
+                <div class="input-group">
+                    <label>Ciphertext</label>
+                    <textarea id="decrypt-ciphertext" placeholder="Paste ciphertext..." spellcheck="false"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Nonce</label>
+                    <textarea id="decrypt-nonce" placeholder="Paste nonce..." spellcheck="false"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Encrypted Key</label>
+                    <textarea id="decrypt-key" placeholder="Paste encrypted key..." spellcheck="false"></textarea>
+                </div>
+
+                <button class="btn-encrypt" onclick="decryptText()">Decrypt</button>
+
+                <div id="decrypt-result" class="result hidden">
+                    <div class="result-section">
+                        <label>Decrypted Text</label>
+                        <textarea readonly id="result-plaintext" spellcheck="false"></textarea>
+                        <button class="btn-copy" onclick="copyToClipboard('result-plaintext')">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFO TAB -->
+            <div id="info" class="tab hidden">
+                <div class="info-content">
+                    <h2>How It Works</h2>
+                    
+                    <h3>Encryption Process</h3>
+                    <ol>
+                        <li>Generate random 256-bit AES key</li>
+                        <li>Generate random 96-bit nonce</li>
+                        <li>Encrypt text with AES-GCM</li>
+                        <li>Encrypt AES key with RSA public key</li>
+                        <li>Share: ciphertext + nonce + encrypted key</li>
+                    </ol>
+
+                    <h3>Why Hybrid?</h3>
+                    <p><strong>AES:</strong> Fast, secure for large data</p>
+                    <p><strong>RSA:</strong> Secure key exchange</p>
+                    <p><strong>Combined:</strong> Best of both worlds</p>
+
+                    <h3>Security Features</h3>
+                    <ul>
+                        <li>AES-GCM: Encryption + Authentication</li>
+                        <li>Random Nonce: Each encryption is unique</li>
+                        <li>OAEP Padding: RSA secure padding</li>
+                        <li>SHA-256: Hash algorithm</li>
+                    </ul>
+
+                    <h3>Real-World Use</h3>
+                    <p>This approach is used in:</p>
+                    <ul>
+                        <li>HTTPS/TLS</li>
+                        <li>Email encryption (PGP)</li>
+                        <li>Cloud storage</li>
+                        <li>Secure messaging</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built with Python • Flask • Cryptography</p>
+        </div
+
+    <div class="notification" id="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
